@@ -80,37 +80,114 @@ namespace Assignment_4._1._2
 
         private void PressAdd(object sender, EventArgs e)
         {
-            switch(calc.State)
+            switch (calc.State)
             {
                 case Calculator.CalculatorState.InputReady:
                     calc.OldValue = calc.DisplayDouble;
-                    calc.DisplayString = "0";
-                    calc.State = Calculator.CalculatorState.InputReady;
-                    calc.LastOp = Calculator.LastOperation.Add;
+                    break;
+                case Calculator.CalculatorState.InputActiveInteger:
+                case Calculator.CalculatorState.InputActiveDecimal:
+                    calc.PreviousOperation();
+                    break;
+            }
+            calc.LastOp = Calculator.LastOperation.Add;
+            calc.UpdateDisplay();
+        }
+
+        private void PressSubtract(object sender, EventArgs e)
+        {
+            switch (calc.State)
+            {
+                case Calculator.CalculatorState.InputReady:
+                    calc.OldValue = calc.DisplayDouble;
+                    break;
+                case Calculator.CalculatorState.InputActiveInteger:
+                case Calculator.CalculatorState.InputActiveDecimal:
+                    calc.PreviousOperation();
+                    break;
+            }
+            calc.LastOp = Calculator.LastOperation.Subtract;
+            calc.UpdateDisplay();
+        }
+
+        private void PressMultiply(object sender, EventArgs e)
+        {
+            switch (calc.State)
+            {
+                case Calculator.CalculatorState.InputReady:
+                    calc.OldValue = calc.DisplayDouble;
+                    break;
+                case Calculator.CalculatorState.InputActiveInteger:
+                case Calculator.CalculatorState.InputActiveDecimal:
+                    calc.PreviousOperation();
+                    break;
+            }
+            calc.LastOp = Calculator.LastOperation.Multiply;
+            calc.UpdateDisplay();
+
+        }
+
+        private void PressDivide(object sender, EventArgs e)
+        {
+            switch (calc.State)
+            {
+                case Calculator.CalculatorState.InputReady:
+                    calc.OldValue = calc.DisplayDouble;
+                    break;
+                case Calculator.CalculatorState.InputActiveInteger:
+                case Calculator.CalculatorState.InputActiveDecimal:
+                    calc.PreviousOperation();
+                    break;
+            }
+            calc.LastOp = Calculator.LastOperation.Divide;
+            calc.UpdateDisplay();
+
+        }
+
+        private void PressEquals(object sender, EventArgs e)
+        {
+            switch (calc.State)
+            {
+                case Calculator.CalculatorState.InputReady:
+                    break;
+                case Calculator.CalculatorState.InputActiveInteger:
+                case Calculator.CalculatorState.InputActiveDecimal:
+                    calc.PreviousOperation();
+                    break;
+            }
+        }
+
+        private void PressSqrt(object sender, EventArgs e)
+        {
+            switch (calc.State)
+            {
+                case Calculator.CalculatorState.InputReady:
+                    calc.DisplayString = Convert.ToString(Math.Sqrt(calc.DisplayDouble));
                     calc.UpdateDisplay();
                     break;
                 case Calculator.CalculatorState.InputActiveInteger:
                 case Calculator.CalculatorState.InputActiveDecimal:
-                    double temp = calc.DisplayDouble;
+                    calc.DisplayString = Convert.ToString(Math.Sqrt(calc.DisplayDouble));
                     calc.State = Calculator.CalculatorState.InputReady;
                     calc.UpdateDisplay();
                     break;
             }
         }
 
-        private void PressSubtract(object sender, EventArgs e)
+        private void pressNegative(object sender, EventArgs e)
         {
-
-        }
-
-        private void PressMultiply(object sender, EventArgs e)
-        {
-
-        }
-
-        private void PressDivide(object sender, EventArgs e)
-        {
-
+            switch (calc.State)
+            {
+                case Calculator.CalculatorState.InputReady:
+                    calc.DisplayDouble = -calc.DisplayDouble;
+                    calc.UpdateDisplay();
+                    break;
+                case Calculator.CalculatorState.InputActiveInteger:
+                case Calculator.CalculatorState.InputActiveDecimal:
+                    calc.DisplayDouble = -calc.DisplayDouble;
+                    calc.UpdateDisplay();
+                    break;
+            }
         }
     }
 }

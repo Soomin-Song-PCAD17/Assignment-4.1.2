@@ -10,11 +10,14 @@ namespace Assignment_4._1._2
     {
         public enum CalculatorState { InputReady, InputActiveInteger, InputActiveDecimal };
         public enum LastOperation { Add, Subtract, Multiply, Divide, Initialize };
-        public double DisplayDouble { get=>Convert.ToDouble(DisplayString); }
+        public double DisplayDouble
+        {
+            get => Convert.ToDouble(DisplayString);
+            set => DisplayString = Convert.ToString(value);
+        }
         public string DisplayString;
         public double InputValue;
         public double OldValue;
-        public double Memory;
         private TextBox? Display;
         public CalculatorState State;
         public LastOperation LastOp;
@@ -32,11 +35,35 @@ namespace Assignment_4._1._2
         public void Initialize()
         {
             DisplayString = "0";
-            Memory = 0;
             InputValue = 0;
             OldValue = 0;
             State = CalculatorState.InputReady;
             LastOp=LastOperation.Initialize;
+            UpdateDisplay();
+        }
+
+        public void PreviousOperation()
+        {
+            switch(LastOp)
+            {
+                case LastOperation.Add:
+                    OldValue = Add(OldValue, DisplayDouble);
+                    break;
+                case LastOperation.Subtract:
+                    OldValue = Subtract(OldValue, DisplayDouble);
+                    break;
+                case LastOperation.Multiply:
+                    OldValue = Multiply(OldValue, DisplayDouble);
+                    break;
+                case LastOperation.Divide:
+                    OldValue = Divide(OldValue, DisplayDouble);
+                    break;
+                case LastOperation.Initialize:
+                    OldValue = DisplayDouble;
+                    break;
+            }
+            State = CalculatorState.InputReady;
+            DisplayString = OldValue.ToString();
             UpdateDisplay();
         }
 

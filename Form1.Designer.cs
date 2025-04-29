@@ -30,8 +30,6 @@
         {
             NumberDisplay = new TextBox();
             tableLayoutPanel1 = new TableLayoutPanel();
-            buttonSqrt = new Button();
-            buttonMemory = new Button();
             buttonClear = new Button();
             button1 = new Button();
             button2 = new Button();
@@ -47,9 +45,10 @@
             buttonDecimal = new Button();
             buttonAdd = new Button();
             buttonSubtract = new Button();
+            buttonNegative = new Button();
             buttonMultiply = new Button();
             buttonDivide = new Button();
-            buttonNegative = new Button();
+            buttonSqrt = new Button();
             errorTextBox = new TextBox();
             tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
@@ -58,7 +57,6 @@
             // 
             NumberDisplay.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             NumberDisplay.BackColor = SystemColors.Menu;
-            NumberDisplay.Enabled = false;
             NumberDisplay.Font = new Font("Courier New", 36F, FontStyle.Bold);
             NumberDisplay.ForeColor = SystemColors.ControlText;
             NumberDisplay.Location = new Point(0, 0);
@@ -77,8 +75,6 @@
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tableLayoutPanel1.Controls.Add(buttonSqrt, 2, 0);
-            tableLayoutPanel1.Controls.Add(buttonMemory, 1, 0);
             tableLayoutPanel1.Controls.Add(buttonClear, 0, 0);
             tableLayoutPanel1.Controls.Add(button1, 0, 3);
             tableLayoutPanel1.Controls.Add(button2, 1, 3);
@@ -94,11 +90,12 @@
             tableLayoutPanel1.Controls.Add(buttonDecimal, 2, 4);
             tableLayoutPanel1.Controls.Add(buttonAdd, 3, 3);
             tableLayoutPanel1.Controls.Add(buttonSubtract, 3, 2);
+            tableLayoutPanel1.Controls.Add(buttonNegative, 0, 4);
             tableLayoutPanel1.Controls.Add(buttonMultiply, 3, 1);
             tableLayoutPanel1.Controls.Add(buttonDivide, 3, 0);
-            tableLayoutPanel1.Controls.Add(buttonNegative, 0, 4);
+            tableLayoutPanel1.Controls.Add(buttonSqrt, 2, 0);
             tableLayoutPanel1.Dock = DockStyle.Bottom;
-            tableLayoutPanel1.Location = new Point(0, 159);
+            tableLayoutPanel1.Location = new Point(0, 100);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 5;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
@@ -106,41 +103,19 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tableLayoutPanel1.Size = new Size(427, 344);
             tableLayoutPanel1.TabIndex = 1;
-            // 
-            // buttonSqrt
-            // 
-            buttonSqrt.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            buttonSqrt.BackColor = SystemColors.ControlLight;
-            buttonSqrt.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            buttonSqrt.Location = new Point(215, 3);
-            buttonSqrt.Name = "buttonSqrt";
-            buttonSqrt.Size = new Size(100, 62);
-            buttonSqrt.TabIndex = 19;
-            buttonSqrt.Text = "²√";
-            buttonSqrt.UseVisualStyleBackColor = false;
-            // 
-            // buttonMemory
-            // 
-            buttonMemory.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            buttonMemory.BackColor = SystemColors.ControlDark;
-            buttonMemory.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            buttonMemory.Location = new Point(109, 3);
-            buttonMemory.Name = "buttonMemory";
-            buttonMemory.Size = new Size(100, 62);
-            buttonMemory.TabIndex = 18;
-            buttonMemory.Text = "M";
-            buttonMemory.UseVisualStyleBackColor = false;
             // 
             // buttonClear
             // 
             buttonClear.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             buttonClear.BackColor = SystemColors.ControlDark;
+            tableLayoutPanel1.SetColumnSpan(buttonClear, 2);
             buttonClear.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             buttonClear.Location = new Point(3, 3);
             buttonClear.Name = "buttonClear";
-            buttonClear.Size = new Size(100, 62);
+            buttonClear.Size = new Size(206, 62);
             buttonClear.TabIndex = 17;
             buttonClear.Text = "C";
             buttonClear.UseVisualStyleBackColor = false;
@@ -277,6 +252,7 @@
             buttonEquals.TabIndex = 10;
             buttonEquals.Text = "=";
             buttonEquals.UseVisualStyleBackColor = false;
+            buttonEquals.Click += PressEquals;
             // 
             // buttonDecimal
             // 
@@ -316,6 +292,18 @@
             buttonSubtract.UseVisualStyleBackColor = false;
             buttonSubtract.Click += PressSubtract;
             // 
+            // buttonNegative
+            // 
+            buttonNegative.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            buttonNegative.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonNegative.Location = new Point(3, 275);
+            buttonNegative.Name = "buttonNegative";
+            buttonNegative.Size = new Size(100, 66);
+            buttonNegative.TabIndex = 16;
+            buttonNegative.Text = "±";
+            buttonNegative.UseVisualStyleBackColor = true;
+            buttonNegative.Click += pressNegative;
+            // 
             // buttonMultiply
             // 
             buttonMultiply.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
@@ -342,16 +330,18 @@
             buttonDivide.UseVisualStyleBackColor = false;
             buttonDivide.Click += PressDivide;
             // 
-            // buttonNegative
+            // buttonSqrt
             // 
-            buttonNegative.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            buttonNegative.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            buttonNegative.Location = new Point(3, 275);
-            buttonNegative.Name = "buttonNegative";
-            buttonNegative.Size = new Size(100, 66);
-            buttonNegative.TabIndex = 16;
-            buttonNegative.Text = "±";
-            buttonNegative.UseVisualStyleBackColor = true;
+            buttonSqrt.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            buttonSqrt.BackColor = SystemColors.ControlLight;
+            buttonSqrt.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonSqrt.Location = new Point(215, 3);
+            buttonSqrt.Name = "buttonSqrt";
+            buttonSqrt.Size = new Size(100, 62);
+            buttonSqrt.TabIndex = 19;
+            buttonSqrt.Text = "²√";
+            buttonSqrt.UseVisualStyleBackColor = false;
+            buttonSqrt.Click += PressSqrt;
             // 
             // errorTextBox
             // 
@@ -371,7 +361,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(427, 503);
+            ClientSize = new Size(427, 444);
             Controls.Add(errorTextBox);
             Controls.Add(tableLayoutPanel1);
             Controls.Add(NumberDisplay);
@@ -403,7 +393,6 @@
         private Button buttonDivide;
         private Button buttonClear;
         private Button buttonNegative;
-        private Button buttonMemory;
         private Button buttonSqrt;
         public TextBox errorTextBox;
     }
